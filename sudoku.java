@@ -39,6 +39,32 @@ public class sudoku
     }
 
     /**
+     * Returns the given column from index of 2d array
+     * @param array the gameboard
+     * @param index the index of specific column being retrieved
+     * @return the column from index inside array
+     */
+    public int[] getColumn(int[][] array, int index)
+    {
+        int[] column = new int[array[0].length];
+        for(int i = 0; i < column.length; i++)
+        {
+            column[i] = array[i][index];
+        }
+        return column;
+    }
+
+    public int[] getRows(int[][] array, int index)
+    {
+        int[] row = new int[array[0].length];
+        for(int i = 0; i < row.length; i++)
+        {
+            row[i] = array[index][i];
+        }
+        return row;
+    }
+
+    /**
      * Checks if an element exists in the given row
      * @param row the row to be analysed
      * @param element the element we're checking for
@@ -112,10 +138,39 @@ public class sudoku
         return !checkRowElement(row, element) && !checkBoxElement(row, column, element) && !checkColumnElement(column, element);
     }
 
+    /**
+     * Method to check if the given row is valid, that is all elements in that row are unique
+     * @param row being checked for any duplicates
+     * @return false iff there is a duplicate in that row, false otherwise
+     */
+    public boolean validRows(int[] row)
+    {
+        Set<Integer> s = new HashSet<Integer>();
+        for(int i : row)
+        {
+            if(s.contains((i)))
+            {
+                return false;
+            }
+            s.add(i);
+        }
+        return true;
+    }
+
+    public boolean validColumns()
+    {
+        for(int i = 0; i < sudoku.length; i++)
+        {
+            int[] columns = getColumn(sudoku, i);
+            System.out.println(Arrays.toString(columns));
+        }
+        return true;
+    }
+
     public static void main(String [] args)
     {
         int[][] sudoku = {
-                { 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                { 1, 2, 2, 4, 5, 6, 7, 8, 9 },
                 { 0, 0, 0, 0, 0, 4, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 5, 0, 0 },
                 { 0, 0, 3, 0, 0, 0, 0, 0, 0 },
@@ -126,9 +181,12 @@ public class sudoku
                 { 3, 0, 5, 0, 0, 0, 0, 0, 0 },
         };
         sudoku myprogram = new sudoku(sudoku);
-        System.out.println(myprogram.checkRowElement(1, 3));
-        System.out.println(myprogram.checkColumnElement(1, 3));
-        myprogram.clear();
+        //System.out.println(myprogram.checkRowElement(1, 3));
+        //System.out.println(myprogram.checkColumnElement(1, 3));
+        //System.out.println(myprogram.validRows(sudoku[0]));
+        //System.out.println(Arrays.toString(myprogram.getColumn(sudoku, 0)));
+        System.out.println(myprogram.validColumns());
+
 
     }
 
